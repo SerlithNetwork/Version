@@ -18,7 +18,7 @@ USER version
 WORKDIR /opt/version
 COPY --from=build-project /version/build/libs/Version-0.0.1-SNAPSHOT.jar ./version.jar
 
-RUN mkdir pictures config
+RUN mkdir config data
 VOLUME ["/opt/version/config", "/opt/version/data"]
 
 HEALTHCHECK --interval=1m --timeout=5s \
