@@ -19,7 +19,7 @@ class FetchController (
         @PathVariable("version") version: String,
     ): ResponseEntity<Int> {
         try {
-            val data = this.softwareRepository.findBySoftwareAndVersion(software = software, version = version) ?: return ResponseEntity.notFound().build()
+            val data = this.softwareRepository.findBySoftwareAndVersion(software = software.lowercase(), version = version) ?: return ResponseEntity.notFound().build()
             return ResponseEntity.ok(data.build)
         } catch (_: Exception) {}
         return ResponseEntity.badRequest().build()

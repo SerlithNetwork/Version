@@ -12,7 +12,7 @@ class SoftwareService (
 
     @Transactional
     fun upsertServerBuild(data: SubmitBuildRequest) {
-        this.softwareRepository.upsertBuild(data.software, data.version, data.build)
+        this.softwareRepository.upsertBuild(data.software.lowercase(), data.version, data.build)
     }
 
 }
