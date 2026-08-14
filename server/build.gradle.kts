@@ -32,7 +32,7 @@ dependencies {
 
     // Jooq
     jooqCodegen("org.jooq:jooq-codegen:$jooqVersion")
-    jooqCodegen("com.h2database:h2")
+    jooqCodegen("org.postgresql:postgresql")
 
     // Misc
     implementation("org.bouncycastle:bcprov-jdk18on:1.78.1")
