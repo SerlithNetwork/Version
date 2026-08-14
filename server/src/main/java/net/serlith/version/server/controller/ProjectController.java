@@ -2,7 +2,9 @@ package net.serlith.version.server.controller;
 
 import lombok.RequiredArgsConstructor;
 import net.serlith.version.server.service.ServerSoftwareService;
+import net.serlith.version.server.types.ServerVersionData;
 import net.serlith.version.server.types.SubmitBuildRequest;
+import net.serlith.version.server.types.VersionData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -18,22 +20,34 @@ public class ProjectController {
     private final ServerSoftwareService service;
 
     @GetMapping("/fetch/{software}/{version}/latest")
-    public Mono<?> fetchLatest(
+    public Mono<VersionData> fetchLatest(
             @PathVariable
             String software,
 
             @PathVariable
             String version
     ) {
+        return this.service.fetchServerData(software, version);
+    }
+
+    @GetMapping("/fetch/{software}/{version}/latest/build")
+    public Mono<Long> fetchLatestBuild(
+            @PathVariable
+            String software,
+
+            @PathVariable
+            String version
+    ) {
+        return this.service.fetchServerData(software, version)
+                .map(VersionData::build);
     }
 
     @PostMapping("/submit")
-    public Mono<Boolean> submitProject(
+    public Mono<ServerVersionData> submitProject(
             @RequestBody
             SubmitBuildRequest request
     ) {
-        return this.service.mergeServerBuild(request)
-                .map(ignore -> true);
+        return this.service.mergeServerBuild(request);
     }
 
 }

@@ -6,6 +6,7 @@ import net.serlith.version.server.schema.tables.records.VersionServerRecord;
 import net.serlith.version.server.schema.tables.records.VersionVersionRecord;
 import net.serlith.version.server.types.ServerVersionData;
 import net.serlith.version.server.types.SubmitBuildRequest;
+import net.serlith.version.server.types.VersionData;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,9 +22,20 @@ public class ServerSoftwareService {
 
     private final DSLContext dsl;
 
+    public Mono<VersionData> fetchServerData(final String software, final String version) {
+        return Mono.from(
+                this.dsl.select(Tables.VERSION_VERSION.fields())
+                        .from(Tables.VERSION_VERSION)
+                        .join(Tables.VERSION_SERVER).on(Tables.VERSION_SERVER.ID.eq(Tables.VERSION_VERSION.SOFTWARE_ID))
+                        .where(Tables.VERSION_VERSION.VERSION.eq(version))
+                        .and(Tables.VERSION_SERVER.NAME.eq(software))
+        )
+                .map(record -> record.into(Tables.VERSION_VERSION))
+                .map(VersionData::from);
+    }
+
     @Transactional
     public Mono<ServerVersionData> mergeServerBuild(final SubmitBuildRequest request) {
-
         return Mono.from(
                 this.dsl.selectFrom(Tables.VERSION_SERVER)
                         .where(Tables.VERSION_SERVER.NAME.equalIgnoreCase(request.software()))
