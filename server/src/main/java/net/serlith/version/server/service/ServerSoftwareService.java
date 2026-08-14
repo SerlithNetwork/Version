@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import net.serlith.version.server.schema.Tables;
 import net.serlith.version.server.schema.tables.records.VersionSoftwareRecord;
 import net.serlith.version.server.schema.tables.records.VersionVersionRecord;
-import net.serlith.version.server.types.ServerVersionData;
-import net.serlith.version.server.types.SubmitBuildRequest;
-import net.serlith.version.server.types.VersionData;
+import net.serlith.version.server.types.*;
+import net.serlith.version.server.util.TokenUtils;
 import org.jooq.DSLContext;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -21,6 +21,19 @@ import java.util.Optional;
 public class ServerSoftwareService {
 
     private final DSLContext dsl;
+    private final PasswordEncoder encoder;
+
+    public Mono<SoftwareDataTokenless> fetchServerFromToken(final String token) {
+        return TokenUtils.parseToken(token)
+                .flatMap(tuple -> {
+                    long id = tuple.getT1();
+                    return Mono.from(
+                            this.dsl.selectFrom(Tables.VERSION_SOFTWARE)
+                                    .where(Tables.VERSION_SOFTWARE.ID.eq(id))
+                    );
+                }).filter(software -> this.encoder.matches(token, software.getToken()))
+                .map(SoftwareDataTokenless::from);
+    }
 
     public Mono<VersionData> fetchServerData(final String software, final String version) {
         return Mono.from(
