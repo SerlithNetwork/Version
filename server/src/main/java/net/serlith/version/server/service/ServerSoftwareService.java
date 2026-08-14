@@ -2,7 +2,7 @@ package net.serlith.version.server.service;
 
 import lombok.RequiredArgsConstructor;
 import net.serlith.version.server.schema.Tables;
-import net.serlith.version.server.schema.tables.records.VersionServerRecord;
+import net.serlith.version.server.schema.tables.records.VersionSoftwareRecord;
 import net.serlith.version.server.schema.tables.records.VersionVersionRecord;
 import net.serlith.version.server.types.ServerVersionData;
 import net.serlith.version.server.types.SubmitBuildRequest;
@@ -26,9 +26,9 @@ public class ServerSoftwareService {
         return Mono.from(
                 this.dsl.select(Tables.VERSION_VERSION.fields())
                         .from(Tables.VERSION_VERSION)
-                        .join(Tables.VERSION_SERVER).on(Tables.VERSION_SERVER.ID.eq(Tables.VERSION_VERSION.SOFTWARE_ID))
+                        .join(Tables.VERSION_SOFTWARE).on(Tables.VERSION_SOFTWARE.ID.eq(Tables.VERSION_VERSION.SOFTWARE_ID))
                         .where(Tables.VERSION_VERSION.VERSION.eq(version))
-                        .and(Tables.VERSION_SERVER.NAME.eq(software))
+                        .and(Tables.VERSION_SOFTWARE.NAME.eq(software))
         )
                 .map(record -> record.into(Tables.VERSION_VERSION))
                 .map(VersionData::from);
@@ -37,8 +37,8 @@ public class ServerSoftwareService {
     @Transactional
     public Mono<ServerVersionData> mergeServerBuild(final SubmitBuildRequest request) {
         return Mono.from(
-                this.dsl.selectFrom(Tables.VERSION_SERVER)
-                        .where(Tables.VERSION_SERVER.NAME.equalIgnoreCase(request.software()))
+                this.dsl.selectFrom(Tables.VERSION_SOFTWARE)
+                        .where(Tables.VERSION_SOFTWARE.NAME.equalIgnoreCase(request.software()))
                 )
                 .switchIfEmpty(Mono.error(new IllegalStateException(String.format("Requested project '%s' doesn't exist", request.software()))))
                 .flatMap(server -> Mono.zip(Mono.just(server), Flux.from(
@@ -46,7 +46,7 @@ public class ServerSoftwareService {
                                 .where(Tables.VERSION_VERSION.SOFTWARE_ID.eq(server.getId()))
                 ).collectList()))
                 .flatMap(tuple -> {
-                    final VersionServerRecord software = tuple.getT1();
+                    final VersionSoftwareRecord software = tuple.getT1();
                     final List<VersionVersionRecord> entries = tuple.getT2();
                     final Optional<VersionVersionRecord> match = entries.stream().filter(entry -> entry.getVersion().equalsIgnoreCase(request.version())).findFirst();
                     final long current = match.stream().mapToLong(VersionVersionRecord::getBuild).findFirst().orElse(0L);
