@@ -97,7 +97,7 @@ jooq {
                 isRecords = true
             }
             target {
-                packageName = "io.canvasmc.gordonramsay.schema"
+                packageName = "net.serlith.version.server.schema"
                 directory = "build/generated-src/jooq/main"
             }
         }
