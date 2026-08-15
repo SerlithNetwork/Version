@@ -5,19 +5,26 @@ import net.serlith.version.server.schema.tables.records.VersionSoftwareRecord;
 
 import java.time.LocalDateTime;
 
-public record SoftwareDataTokenless(
+public record SoftwareDataTokenized(
         long id,
         String name,
 
         @JsonProperty("display_name")
         String display,
+        String token,
 
         @JsonProperty("created_at")
         LocalDateTime createdAt
 ) {
 
-    public static SoftwareDataTokenless from(final VersionSoftwareRecord record) {
-        return new SoftwareDataTokenless(record.getId(), record.getName(), record.getDisplay(), record.getCreatedAt());
+    public static SoftwareDataTokenized from(final VersionSoftwareRecord record, final String token) {
+        return new SoftwareDataTokenized(
+                record.getId(),
+                record.getName(),
+                record.getDisplay(),
+                token,
+                record.getCreatedAt()
+        );
     }
 
 }

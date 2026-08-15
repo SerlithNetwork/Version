@@ -50,10 +50,8 @@ public class SecurityConfiguration {
     @Bean
     @Order(1)
     public SecurityWebFilterChain jwtChainManagement(ServerHttpSecurity http, JwtAuthenticationManager manager, JwtAuthenticationConverter converter) {
-
         AuthenticationWebFilter filter = new AuthenticationWebFilter(manager);
         filter.setServerAuthenticationConverter(converter);
-
         return http.securityMatcher(new PathPatternParserServerWebExchangeMatcher("/api/v1/management/**"))
                 .authorizeExchange(ex -> ex.anyExchange().authenticated())
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
@@ -77,7 +75,6 @@ public class SecurityConfiguration {
     public SecurityWebFilterChain ciUpdateChain(ServerHttpSecurity http, CiAuthenticationManager manager, CiAuthenticationConverter converter) {
         AuthenticationWebFilter filter = new AuthenticationWebFilter(manager);
         filter.setServerAuthenticationConverter(converter);
-
         return http.securityMatcher(new PathPatternParserServerWebExchangeMatcher("/api/v1/project/submit"))
                 .authorizeExchange(ex -> ex.anyExchange().authenticated())
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)

@@ -47,4 +47,12 @@ public class TokenUtils {
         return sb.toString();
     }
 
+    public static String tokenFromIdAndKey(long id, String key) {
+        return String.format("%08x.%s", id, key);
+    }
+
+    public static String generateRandomTokenFromId(long id, int length) {
+        return TokenUtils.tokenFromIdAndKey(id, TokenUtils.generateRandomKey(length));
+    }
+
 }
