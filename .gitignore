@@ -43,4 +43,4 @@ out/
 /config
 /data
 /logs
-/application.properties
+/application.yml
