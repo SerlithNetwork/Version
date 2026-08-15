@@ -28,7 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-    @Value("${yoimiya.cors.allowed-origins}")
+    @Value("${version.cors.allowed-origins}")
     private List<String> allowedOrigins;
 
     @Bean
@@ -92,6 +92,26 @@ public class SecurityConfiguration {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowedOrigins(this.allowedOrigins);
                     config.setAllowedMethods(List.of("GET", "POST", "OPTIONS"));
+                    config.setAllowedHeaders(List.of("*"));
+
+                    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                    source.registerCorsConfiguration("/**", config);
+
+                    spec.configurationSource(source);
+                })
+                .build();
+    }
+
+    @Bean
+    @Order(20)
+    public SecurityWebFilterChain openChain(ServerHttpSecurity http) {
+        return http.securityMatcher(new PathPatternParserServerWebExchangeMatcher("/api/v1/project/fetch/**"))
+                .authorizeExchange(ex -> ex.anyExchange().permitAll())
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .cors(spec -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOrigins(List.of("*"));
+                    config.setAllowedMethods(List.of("GET", "OPTIONS"));
                     config.setAllowedHeaders(List.of("*"));
 
                     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
