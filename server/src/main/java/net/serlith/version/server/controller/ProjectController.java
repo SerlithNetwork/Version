@@ -57,7 +57,11 @@ public class ProjectController {
             return Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED));
         }
         LOGGER.info("CI for [{}] is updating server [{}] build data...", authentication.getPrincipal(), request.software());
-        return this.service.mergeServerBuild(request);
+        return this.service.mergeServerBuild(request)
+                .onErrorResume(throwable -> {
+                    LOGGER.error("CI for [{}] failed to update server [{}] build data...", authentication.getPrincipal(), request.software());
+                    return Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, throwable.getMessage()));
+                });
     }
 
 }
