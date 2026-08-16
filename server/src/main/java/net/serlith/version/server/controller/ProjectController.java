@@ -60,7 +60,7 @@ public class ProjectController {
         return this.service.mergeServerBuild(request)
                 .onErrorResume(throwable -> {
                     LOGGER.error("CI for [{}] failed to update server [{}] build data...", authentication.getPrincipal(), request.software());
-                    return Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, throwable.getMessage()));
+                    return Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, throwable.getMessage()));
                 });
     }
 

@@ -67,7 +67,7 @@ public class ManagementController {
         return this.softwareService.updateSoftware(id, request);
     }
 
-    @PostMapping("/sofware/{id}/reset")
+    @PostMapping("/software/{id}/reset")
     public Mono<SoftwareDataTokenized> resetSoftwareToken(
             @PathVariable
             long id,

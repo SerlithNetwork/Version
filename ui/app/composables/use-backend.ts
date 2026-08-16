@@ -72,7 +72,7 @@ export default function () {
   function resetSoftwareToken(id: number) {
     return $fetch<SoftwareDataTokenized>(`${managementApi}/software/${id}/reset`, {
       headers,
-      method: 'PUT',
+      method: 'POST',
       ...messages,
       onResponse(event) {
         if (!event.error) {
