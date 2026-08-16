@@ -1,20 +1,13 @@
-FROM node:lts AS build
+FROM oven/bun:1-debian AS build
 
 RUN apt-get update && apt-get install -y python3 g++ make
 
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile --production
 
-COPY . .
-RUN npm run build
+COPY . ./
+RUN bun run build
 
-
-
-FROM node:lts-slim
-
-WORKDIR /app
-COPY --from=build /app/.output ./.output
-
-CMD ["node", ".output/server/index.mjs"]
+CMD ["bun", ".output/server/index.mjs"]
 EXPOSE 3000
