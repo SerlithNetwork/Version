@@ -6,9 +6,6 @@ plugins {
     id("org.flywaydb.flyway") version "12.8.1"
 }
 
-group = "net.serlith.version.server"
-version = "1.0-SNAPSHOT"
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
