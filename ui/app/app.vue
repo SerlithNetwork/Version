@@ -20,7 +20,7 @@ useSeoMeta({
   ogTitle: title,
   ogDescription: description,
   ogImage: 'https://version.serlith.net/api/v1/assets/logo.png',
-  themeColor: '#FF7B00'
+  themeColor: '#8042FF'
 })
 </script>
 
