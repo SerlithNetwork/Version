@@ -106,7 +106,7 @@ definePageMeta({
           <UButton icon="i-lucide-plus" />
           <template #body>
             <div class="flex items-center justify-center">
-              <ModalSoftwareCreate @submit="onSubmitGeneric" />
+              <ModalSoftwareCreate @submit="onSubmitDisplaySecret" />
             </div>
           </template>
         </UModal>
