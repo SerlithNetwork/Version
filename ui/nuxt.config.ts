@@ -5,7 +5,8 @@ const apiBackendUrl = 'https://version.serlith.net/api/v1'
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
-    '@nuxt/ui'
+    '@nuxt/ui',
+    '@pinia/nuxt'
   ],
 
   devtools: {
@@ -26,12 +27,4 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2026-06-30',
 
-  eslint: {
-    config: {
-      stylistic: {
-        commaDangle: 'never',
-        braceStyle: '1tbs'
-      }
-    }
-  }
 })
