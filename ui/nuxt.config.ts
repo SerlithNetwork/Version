@@ -4,7 +4,6 @@ const apiBackendUrl = 'https://version.serlith.net/api/v1'
 
 export default defineNuxtConfig({
   modules: [
-    '@nuxt/eslint',
     '@nuxt/ui',
     '@pinia/nuxt'
   ],
