@@ -53,9 +53,10 @@ public class ProjectController {
             KeyAuthenticationToken authentication
     ) {
         if (!authentication.allowsSoftware(request.software())) {
-            LOGGER.info("CI for [{}] attempted to upload server [{}] without authorization", authentication.getPrincipal(), request.software());
+            LOGGER.info("CI for [{}] attempted to update server [{}] build data without authorization", authentication.getPrincipal(), request.software());
             return Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED));
         }
+        LOGGER.info("CI for [{}] is updating server [{}] build data...", authentication.getPrincipal(), request.software());
         return this.service.mergeServerBuild(request);
     }
 
