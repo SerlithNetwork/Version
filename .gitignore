@@ -39,8 +39,29 @@ out/
 ### Kotlin ###
 .kotlin
 
-### Version ###
+### Version UI ###
+# Nuxt dev/build outputs
+/ui/.output
+/ui/.data
+/ui/.nuxt
+/ui/.nitro
+/ui/.cache
+/ui/dist
+
+# Node dependencies
+/ui/node_modules/
+
+# Misc
+/ui/.fleet
+/ui/.idea
+
+# Local env files
+/ui/.env
+/ui/.env.*
+/ui/!.env.example
+
+### Version Server ###
 /config
 /data
 /logs
-/application.properties
+/application.yml

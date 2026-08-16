@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: Version Server
+    version: 1.0
+  r2dbc:
+    url: ${VERSION_DATABASE_URL:}
+    username: ${VERSION_DATABASE_USER:version}
+    password: ${VERSION_DATABASE_PASSWORD:}
+    pool:
+      enabled: true
+
+version:
+  manager:
+    username: ${VERSION_MANAGER_USER:version}
+    password: ${VERSION_MANAGER_PASSWORD:password}
+  cors:
+    allowed-origins: ${VERSION_CORS_ALLOWED_ORIGINS}

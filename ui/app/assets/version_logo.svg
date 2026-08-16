@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <linearGradient
+       id="linearGradient2">
+      <stop
+         style="stop-color:#9c00ce;stop-opacity:1;"
+         offset="0"
+         id="stop2" />
+      <stop
+         style="stop-color:#60d4ff;stop-opacity:1;"
+         offset="1"
+         id="stop3" />
+    </linearGradient>
+    <rect
+       x="54.293465"
+       y="107.32429"
+       width="233.46677"
+       height="231.91435"
+       id="rect1" />
+    <linearGradient
+       xlink:href="#linearGradient2"
+       id="linearGradient3"
+       x1="78.548164"
+       y1="145.80743"
+       x2="263.13077"
+       y2="281.14529"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     id="layer1">
+    <text
+       xml:space="preserve"
+       id="text1"
+       style="font-size:192px;text-align:center;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect1);fill:url(#linearGradient3)"
+       transform="matrix(2.6869049,0,0,2.6869049,-203.96193,-317.72037)"
+       x="116.73338"
+       y="0"><tspan
+         x="77.138397"
+         y="282.02025"
+         id="tspan5"><tspan
+           style="font-weight:bold;font-family:Sans;-inkscape-font-specification:'Sans Bold'"
+           id="tspan3">V</tspan><tspan
+           style="font-size:96px"
+           id="tspan4">R</tspan></tspan></text>
+  </g>
+</svg>

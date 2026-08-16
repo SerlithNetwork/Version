@@ -1,0 +1,61 @@
+<script setup lang="ts">
+import * as z from 'zod'
+import type { FormSubmitEvent } from '@nuxt/ui'
+import type {SoftwareDataTokenized} from "~/types/software";
+
+type Emits = {
+  submit: [SoftwareDataTokenized]
+}
+
+const backend = useBackend()
+const emit = defineEmits<Emits>()
+
+const schema = z.object({
+  name: z.string().trim()
+    .min(3, 'Must be at least 3 characters long'),
+  displayName: z.string()
+    .min(3, 'Must be at least 3 characters long'),
+})
+type Schema = z.output<typeof schema>
+
+const state = reactive<Partial<Schema>>({
+  name: "",
+  displayName: "",
+})
+
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+  return backend.createSoftware({
+    name: event.data.name,
+    display_name: event.data.displayName
+  }).then((result) => {
+    emit('submit', result)
+  })
+}
+</script>
+
+<template>
+  <UForm
+    :schema="schema"
+    :state="state"
+    @submit="onSubmit"
+    class="flex flex-col items-center justify-center gap-4 w-full"
+  >
+    <div class="flex flex-col items-center justify-center gap-2 w-full">
+      <UFormField label="Software Name" name="name">
+        <UInput v-model="state.name" @keydown.space.prevent />
+      </UFormField>
+      <UFormField label="Display Name" name="name">
+        <UInput v-model="state.displayName" />
+      </UFormField>
+    </div>
+    <div class="flex flex-col items-end w-full">
+      <UButton type="submit">
+        Submit
+      </UButton>
+    </div>
+  </UForm>
+</template>
+
+<style scoped>
+
+</style>
