@@ -16,6 +16,7 @@ import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
+import org.springframework.security.web.server.util.matcher.OrServerWebExchangeMatcher;
 import org.springframework.security.web.server.util.matcher.PathPatternParserServerWebExchangeMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
@@ -105,7 +106,10 @@ public class SecurityConfiguration {
     @Bean
     @Order(20)
     public SecurityWebFilterChain openChain(ServerHttpSecurity http) {
-        return http.securityMatcher(new PathPatternParserServerWebExchangeMatcher("/api/v1/project/fetch/**"))
+        return http.securityMatcher(new OrServerWebExchangeMatcher(
+                        new PathPatternParserServerWebExchangeMatcher("/api/v1/project/fetch/**"),
+                        new PathPatternParserServerWebExchangeMatcher("/api/v1/project/assets/**")
+                ))
                 .authorizeExchange(ex -> ex.anyExchange().permitAll())
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .cors(spec -> {
