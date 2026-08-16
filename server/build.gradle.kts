@@ -55,6 +55,21 @@ dependencies {
 tasks.register("prepareKotlinBuildScriptModel") {
 }
 
+tasks {
+    bootJar {
+        archiveBaseName.set("VersionServer")
+    }
+    compileJava {
+        dependsOn(jooqCodegen)
+    }
+    jooqCodegen {
+        dependsOn(flywayMigrate)
+    }
+    flywayMigrate {
+        dependsOn(flywayClean)
+    }
+}
+
 buildscript {
     repositories {
         mavenCentral()
@@ -101,17 +116,5 @@ jooq {
                 directory = "build/generated-src/jooq/main"
             }
         }
-    }
-}
-
-tasks {
-    compileJava {
-        dependsOn(jooqCodegen)
-    }
-    jooqCodegen {
-        dependsOn(flywayMigrate)
-    }
-    flywayMigrate {
-        dependsOn(flywayClean)
     }
 }
