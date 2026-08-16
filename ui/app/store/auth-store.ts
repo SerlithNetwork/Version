@@ -5,13 +5,13 @@ export const useAuthenticationStore = defineStore('authentication', () => {
   const user = ref<PrivilegedUserDetails | undefined>(undefined)
 
   // Cookies for token storage (SSR-compatible)
-  const accessToken = useCookie<ExpirableToken | undefined>('cobalt_access_token', {
+  const accessToken = useCookie<ExpirableToken | undefined>('version_access_token', {
     maxAge: 45 * 60, // 45 minutes
     sameSite: 'lax',
     secure: true
   })
 
-  const refreshToken = useCookie<ExpirableToken | undefined>('cobalt_refresh_token', {
+  const refreshToken = useCookie<ExpirableToken | undefined>('version_refresh_token', {
     maxAge: 24 * 60 * 60, // 1 day
     sameSite: 'lax',
     secure: true
