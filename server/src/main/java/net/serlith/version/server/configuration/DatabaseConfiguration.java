@@ -1,10 +1,14 @@
 package net.serlith.version.server.configuration;
 
 import io.r2dbc.spi.ConnectionFactory;
+import org.jooq.DSLContext;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DSL;
 import org.jspecify.annotations.NullMarked;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.r2dbc.connection.TransactionAwareConnectionFactoryProxy;
 import org.springframework.r2dbc.connection.init.CompositeDatabasePopulator;
 import org.springframework.r2dbc.connection.init.ConnectionFactoryInitializer;
 import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator;
@@ -24,6 +28,14 @@ public class DatabaseConfiguration {
         initializer.setDatabasePopulator(populator);
 
         return initializer;
+    }
+
+    @Bean
+    public DSLContext dslContext(ConnectionFactory factory) {
+        return DSL.using(
+                new TransactionAwareConnectionFactoryProxy(factory),
+                SQLDialect.POSTGRES
+        );
     }
 
 }

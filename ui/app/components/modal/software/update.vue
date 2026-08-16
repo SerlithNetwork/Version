@@ -43,7 +43,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <UInput v-model="state.name" @keydown.space.prevent />
       </UFormField>
       <UFormField label="Display Name" name="name">
-        <UInput v-model="state.name" />
+        <UInput v-model="state.displayName" />
       </UFormField>
     </div>
     <div class="flex flex-col items-end w-full">

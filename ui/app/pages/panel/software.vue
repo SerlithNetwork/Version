@@ -18,7 +18,7 @@ const columns: TableColumn<SoftwareDataTokenless>[] = [
     header: 'Key'
   },
   {
-    accessorKey: 'display',
+    accessorKey: 'display_name',
     header: 'Software Name'
   },
   {
