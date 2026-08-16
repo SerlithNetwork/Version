@@ -23,7 +23,7 @@ jobs:
         env:
           POSTGRES_USER: pgactions
           POSTGRES_PASSWORD: pgactions
-          POSTGRES_DB: flare
+          POSTGRES_DB: version
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
