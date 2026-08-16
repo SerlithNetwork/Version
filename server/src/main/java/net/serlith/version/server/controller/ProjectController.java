@@ -1,13 +1,16 @@
 package net.serlith.version.server.controller;
 
 import lombok.RequiredArgsConstructor;
+import net.serlith.version.server.security.authentication.KeyAuthenticationToken;
 import net.serlith.version.server.service.ServerSoftwareService;
 import net.serlith.version.server.types.ServerVersionData;
 import net.serlith.version.server.types.SubmitBuildRequest;
 import net.serlith.version.server.types.VersionData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -45,8 +48,14 @@ public class ProjectController {
     @PostMapping("/submit")
     public Mono<ServerVersionData> submitProject(
             @RequestBody
-            SubmitBuildRequest request
+            SubmitBuildRequest request,
+
+            KeyAuthenticationToken authentication
     ) {
+        if (!authentication.allowsSoftware(request.software())) {
+            LOGGER.info("CI for [{}] attempted to upload server [{}] without authorization", authentication.getPrincipal(), request.software());
+            return Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+        }
         return this.service.mergeServerBuild(request);
     }
 
