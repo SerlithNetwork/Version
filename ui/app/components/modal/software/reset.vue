@@ -5,7 +5,6 @@ type Emits = {
   submit: [SoftwareDataTokenized]
 }
 
-
 const backend = useBackend()
 const props = defineProps<{ software: SoftwareDataTokenless }>()
 const emit = defineEmits<Emits>()

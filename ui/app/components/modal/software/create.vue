@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
+import type {SoftwareDataTokenized} from "~/types/software";
+
+type Emits = {
+  submit: [SoftwareDataTokenized]
+}
 
 const backend = useBackend()
-const emit = defineEmits(['submit'])
+const emit = defineEmits<Emits>()
 
 const schema = z.object({
   name: z.string().trim()
@@ -22,8 +27,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   return backend.createSoftware({
     name: event.data.name,
     display_name: event.data.displayName
-  }).then(() => {
-    emit('submit')
+  }).then((result) => {
+    emit('submit', result)
   })
 }
 </script>

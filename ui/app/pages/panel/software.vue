@@ -146,7 +146,7 @@ definePageMeta({
         </div>
       </template>
     </UModal>
-    <UModal title="Secret" v-model:open="isSecretModalShown" :ui="{ content: 'md:max-w-3xl' }">
+    <UModal title="Secret" v-model:open="isSecretModalShown" :ui="{ content: 'md:max-w-7xl' }">
       <template #body>
         <div class="flex items-center justify-center">
           <ModalSecretDisplay :target="secretSoftware!" name-field="name" secret-field="token" />

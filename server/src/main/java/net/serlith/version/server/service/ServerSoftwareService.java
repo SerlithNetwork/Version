@@ -72,7 +72,7 @@ public class ServerSoftwareService {
                     Mono.just(token),
                     Mono.from(
                             this.dsl.update(Tables.VERSION_SOFTWARE)
-                                    .set(Tables.VERSION_SOFTWARE.TOKEN, token)
+                                    .set(Tables.VERSION_SOFTWARE.TOKEN, this.encoder.encode(token))
                                     .where(Tables.VERSION_SOFTWARE.ID.eq(result.getId()))
                                     .returning()
                     )

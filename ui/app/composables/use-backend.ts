@@ -32,7 +32,7 @@ export default function () {
   }
 
   function createSoftware(software: SoftwareUpdateRequest) {
-    return $fetch<SoftwareDataTokenless>(`${managementApi}/software`, {
+    return $fetch<SoftwareDataTokenized>(`${managementApi}/software`, {
       headers,
       method: 'POST',
       body: software,
